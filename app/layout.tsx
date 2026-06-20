@@ -16,7 +16,7 @@ const libreBaskerville = Libre_Baskerville({
 
 export const metadata: Metadata = {
   title: 'ForjaCV - Creador de Curriculum Profesional',
-  description: 'Crea tu curriculum vitae con estilo profesional',
+  description: 'Crea tu curriculum en formato MIT: edita en un panel lateral, previsualiza en tiempo real y exporta a PDF o LaTeX. Compatible ATS, sin registro.',
   generator: 'v0.app',
   icons: {
     icon: '/favicon-32.png',
