@@ -64,7 +64,7 @@ export function CVPreviewFrame({ data, className }: CVPreviewFrameProps) {
       ref={containerRef}
       style={frameHeight ? { height: frameHeight } : undefined}
       className={cn(
-        "cv-preview-frame relative overflow-hidden rounded-lg border border-border bg-white shadow-xl transition-opacity duration-300",
+        "cv-preview-frame relative w-full min-w-0 overflow-hidden rounded-lg border border-border bg-white shadow-xl transition-opacity duration-300",
         measured ? "opacity-100" : "opacity-0",
         className,
       )}
@@ -72,6 +72,9 @@ export function CVPreviewFrame({ data, className }: CVPreviewFrameProps) {
       <div
         ref={innerRef}
         style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
           width: "8.27in",
           transformOrigin: "top left",
           transform: `scale(${scale})`,

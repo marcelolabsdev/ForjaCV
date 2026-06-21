@@ -17,7 +17,7 @@ export function Hero() {
         }}
       />
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-20 lg:grid-cols-2 lg:px-6 lg:py-28">
-        <div className="flex flex-col items-start gap-6">
+        <div className="flex min-w-0 flex-col items-start gap-6">
           <Reveal as="div">
             <Badge variant="outline" className="gap-1.5 px-3 py-1 text-xs">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
@@ -60,7 +60,7 @@ export function Hero() {
           </Reveal>
         </div>
 
-        <Reveal delay={200} className="relative">
+        <Reveal delay={200} className="relative min-w-0">
           <div
             className="pointer-events-none absolute -inset-4 -z-10 rounded-2xl opacity-40 blur-2xl"
             style={{
