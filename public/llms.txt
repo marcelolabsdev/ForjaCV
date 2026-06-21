@@ -1,0 +1,35 @@
+# ForjaCV
+
+> ForjaCV es un creador de currículums en formato MIT, de código abierto (licencia MIT). Permite editar el contenido del CV en un panel lateral, ver una vista previa en tiempo real y exportar el resultado a PDF o LaTeX. Es compatible con sistemas ATS (Applicant Tracking Systems) y no requiere registro: todos los datos viven en el navegador del usuario.
+
+Detalles clave:
+
+- Stack tecnológico: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui (Radix UI), @react-pdf/renderer.
+- Exportación a PDF: endpoint `POST /api/pdf` con @react-pdf/renderer usando fuentes Latin Modern Roman (CMU Serif).
+- Exportación a LaTeX: el archivo .tex se genera en el cliente.
+- Secciones de CV soportadas: contacto, educación, experiencia, proyectos, habilidades (agrupadas por categoría) y publicaciones.
+- Privacidad por diseño: la edición y la vista previa ocurren 100% en el navegador. La generación del PDF es la única petición al servidor y los datos no se almacenan.
+- El formato MIT es el estilo recomendado por el MIT (Career Advising & Professional Development), aceptado en el sector tecnológico (Google, Microsoft, Meta, Amazon y startups).
+
+## Recursos
+
+- [ForjaCV (landing)](https://forja-cv.vercel.app/): Página principal con explicación del formato MIT, características y cómo funciona.
+- [Editor de CV](https://forja-cv.vercel.app/editor): Aplicación para crear y exportar el currículum (no indexada para buscadores).
+- [Repositorio en GitHub](https://github.com/marcelolabsdev/ForjaCV): Código fuente, issues, README completo y guía de desarrollo.
+- [README del proyecto](https://github.com/marcelolabsdev/ForjaCV/blob/main/README.md): Documentación completa, instalación y modelo de datos del CV.
+- [Licencia MIT](https://github.com/marcelolabsdev/ForjaCV/blob/main/LICENSE): Texto completo de la licencia.
+
+## Preguntas frecuentes
+
+- ¿ForjaCV es gratis?: Sí. Es de código abierto bajo licencia MIT, puedes usarlo y modificarlo libremente.
+- ¿Necesito crear una cuenta?: No. No hay registro ni servidores que almacenen tu información; todo se guarda en tu navegador.
+- ¿Mis datos están seguros?: Sí. La edición y la vista previa ocurren en el navegador; el PDF se genera en una única petición y no se almacena.
+- ¿Es compatible con sistemas ATS?: Sí. El formato MIT es minimalista, sin columnas ni gráficos, con texto seleccionable.
+- ¿Qué es el formato MIT?: El estilo de currículum recomendado por el MIT; prioriza la claridad, los logros cuantificables y cabe en una sola página.
+- ¿Puedo editar el LaTeX exportado?: Sí. ForjaCV genera el código LaTeX para editarlo en Overleaf, TeX Live, etc.
+
+## Optional
+
+- [Vercel Analytics](https://vercel.com/analytics): Analítica de uso habilitada solo en producción.
+- [shadcn/ui](https://ui.shadcn.com/): Sistema de componentes UI utilizado.
+- [llms.txt spec](https://llmstxt.org/): Especificación oficial de este archivo.
