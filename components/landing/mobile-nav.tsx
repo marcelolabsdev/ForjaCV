@@ -27,9 +27,7 @@ export function MobileNav({ className }: { className?: string }) {
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-72">
-        <SheetTitle className="px-1 text-base font-semibold">
-          Navegación
-        </SheetTitle>
+        <SheetTitle className="sr-only">Navegación</SheetTitle>
         <nav className="mt-2 flex flex-col gap-1 px-2">
           {NAV_LINKS.map((link) => (
             <SheetClose asChild key={link.href}>
