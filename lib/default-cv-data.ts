@@ -12,6 +12,7 @@ export const defaultCVData: CVData = {
   },
   education: [],
   experience: [],
+  certifications: [],
   skills: [],
   projects: [],
   publications: [],

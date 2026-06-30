@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Reveal } from "@/components/landing/reveal"
 import { sampleCVData } from "@/lib/sample-cv-data"
-import { ArrowRight, Sparkles, Github } from "lucide-react"
+import { ArrowRight, Sparkles, Coffee } from "lucide-react"
 
 export function Hero() {
   return (
@@ -45,12 +45,12 @@ export function Hero() {
             </Button>
             <Button asChild size="lg" variant="outline" className="gap-2">
               <a
-                href="https://github.com/marcelolabsdev/ForjaCV"
+                href="https://ko-fi.com/U2A222506I"
                 target="_blank"
                 rel="noreferrer"
               >
-                <Github className="h-4 w-4" />
-                Ver en GitHub
+                <Coffee className="h-4 w-4" />
+                Apóyame en Ko-fi
               </a>
             </Button>
           </Reveal>

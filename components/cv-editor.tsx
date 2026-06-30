@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import type { CVData, Education, Experience, SkillCategory, Project, Publication } from "@/types/cv"
+import type { CVData, Education, Experience, SkillCategory, Project, Publication, Certification } from "@/types/cv"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -30,6 +30,33 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
     })
   }
 
+  // Experience handlers
+  const addExperience = () => {
+    const newExperience: Experience = {
+      id: generateId(),
+      company: "",
+      position: "",
+      location: "",
+      startDate: "",
+      endDate: "",
+      responsibilities: [],
+    }
+    onChange({ ...data, experience: [...data.experience, newExperience] })
+  }
+
+  const updateExperience = (id: string, field: keyof Experience, value: string | string[]) => {
+    onChange({
+      ...data,
+      experience: data.experience.map((exp) =>
+        exp.id === id ? { ...exp, [field]: value } : exp
+      ),
+    })
+  }
+
+  const removeExperience = (id: string) => {
+    onChange({ ...data, experience: data.experience.filter((exp) => exp.id !== id) })
+  }
+
   // Education handlers
   const addEducation = () => {
     const newEducation: Education = {
@@ -56,31 +83,29 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
     onChange({ ...data, education: data.education.filter((edu) => edu.id !== id) })
   }
 
-  // Experience handlers
-  const addExperience = () => {
-    const newExperience: Experience = {
+  // Certification handlers
+  const addCertification = () => {
+    const newCertification: Certification = {
       id: generateId(),
-      company: "",
-      position: "",
-      location: "",
+      name: "",
+      issuer: "",
       startDate: "",
       endDate: "",
-      responsibilities: [],
     }
-    onChange({ ...data, experience: [...data.experience, newExperience] })
+    onChange({ ...data, certifications: [...data.certifications, newCertification] })
   }
 
-  const updateExperience = (id: string, field: keyof Experience, value: string | string[]) => {
+  const updateCertification = (id: string, field: keyof Certification, value: string) => {
     onChange({
       ...data,
-      experience: data.experience.map((exp) =>
-        exp.id === id ? { ...exp, [field]: value } : exp
+      certifications: data.certifications.map((cert) =>
+        cert.id === id ? { ...cert, [field]: value } : cert
       ),
     })
   }
 
-  const removeExperience = (id: string) => {
-    onChange({ ...data, experience: data.experience.filter((exp) => exp.id !== id) })
+  const removeCertification = (id: string) => {
+    onChange({ ...data, certifications: data.certifications.filter((cert) => cert.id !== id) })
   }
 
   // Skills handlers
@@ -166,7 +191,7 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
         {/* Contact Section */}
         <AccordionItem value="contact" className="border border-border rounded-md bg-background">
           <AccordionTrigger className="hover:no-underline px-3 py-2.5 text-sm">
-            <span className="font-medium">Informacion de Contacto</span>
+            <span className="font-medium">Información de Contacto</span>
           </AccordionTrigger>
           <AccordionContent className="px-3 pb-3">
             <div className="grid gap-3 pt-1">
@@ -176,7 +201,7 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                   id="fullName"
                   value={data.contact.fullName}
                   onChange={(e) => updateContact("fullName", e.target.value)}
-                  placeholder="Juan Perez"
+                  placeholder="Juan Pérez"
                   className="h-8 text-sm"
                 />
               </div>
@@ -193,7 +218,7 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                   />
                 </div>
                 <div className="grid gap-1.5">
-                  <Label htmlFor="phone" className="text-xs text-muted-foreground">Telefono</Label>
+                  <Label htmlFor="phone" className="text-xs text-muted-foreground">Teléfono</Label>
                   <Input
                     id="phone"
                     value={data.contact.phone}
@@ -241,92 +266,11 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                   id="professionalProfile"
                   value={data.contact.professionalProfile || ""}
                   onChange={(e) => updateContact("professionalProfile", e.target.value)}
-                  placeholder="Profesional con X anios de experiencia..."
+                  placeholder="Profesional con X años de experiencia..."
                   rows={3}
                   className="text-sm resize-none"
                 />
               </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
-
-        {/* Education Section */}
-        <AccordionItem value="education" className="border border-border rounded-md bg-background">
-          <AccordionTrigger className="hover:no-underline px-3 py-2.5 text-sm">
-            <span className="font-medium">Educacion</span>
-          </AccordionTrigger>
-          <AccordionContent className="px-3 pb-3">
-            <div className="space-y-3 pt-1">
-              {data.education.map((edu, index) => (
-                <Card key={edu.id} className="border-border bg-muted/30 py-0 gap-0">
-                  <CardContent className="p-3 space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-muted-foreground">#{index + 1}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeEducation(edu.id)}
-                        className="h-6 w-6 text-muted-foreground hover:text-destructive"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </Button>
-                    </div>
-                    <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Institucion</Label>
-                      <Input
-                        value={edu.institution}
-                        onChange={(e) => updateEducation(edu.id, "institution", e.target.value)}
-                        placeholder="Universidad de Chile"
-                        className="h-8 text-sm"
-                      />
-                    </div>
-                    <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Titulo</Label>
-                      <Input
-                        value={edu.degree}
-                        onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
-                        placeholder="Ingenieria en Computacion"
-                        className="h-8 text-sm"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-muted-foreground">Inicio</Label>
-                        <Input
-                          value={edu.startDate}
-                          onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
-                          placeholder="Mar 2018"
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                      <div className="grid gap-1.5">
-                        <Label className="text-xs text-muted-foreground">Fin</Label>
-                        <Input
-                          value={edu.endDate}
-                          onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
-                          placeholder="Dic 2022"
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Logros (uno por linea)</Label>
-                      <ListField
-                        multiline
-                        value={edu.achievements}
-                        onChange={(v) => updateEducation(edu.id, "achievements", v)}
-                        placeholder="Mejor promedio&#10;Beca de excelencia"
-                        rows={2}
-                        className="text-sm resize-none"
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-              <Button variant="outline" onClick={addEducation} size="sm" className="w-full h-8 text-xs">
-                <Plus className="w-3.5 h-3.5 mr-1.5" />
-                Agregar
-              </Button>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -372,7 +316,7 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                         />
                       </div>
                       <div className="grid gap-1.5">
-                        <Label className="text-xs text-muted-foreground">Ubicacion</Label>
+                        <Label className="text-xs text-muted-foreground">Ubicación</Label>
                         <Input
                           value={exp.location}
                           onChange={(e) => updateExperience(exp.id, "location", e.target.value)}
@@ -402,12 +346,12 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                       </div>
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Responsabilidades (una por linea)</Label>
+                      <Label className="text-xs text-muted-foreground">Responsabilidades (una por línea)</Label>
                       <ListField
                         multiline
                         value={exp.responsibilities}
                         onChange={(v) => updateExperience(exp.id, "responsibilities", v)}
-                        placeholder="Desarrolle aplicaciones web&#10;Lidere equipo de 5 personas"
+                        placeholder="Desarrollé aplicaciones web&#10;Lideré equipo de 5 personas"
                         rows={3}
                         className="text-sm resize-none"
                       />
@@ -416,6 +360,157 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                 </Card>
               ))}
               <Button variant="outline" onClick={addExperience} size="sm" className="w-full h-8 text-xs">
+                <Plus className="w-3.5 h-3.5 mr-1.5" />
+                Agregar
+              </Button>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Education Section */}
+        <AccordionItem value="education" className="border border-border rounded-md bg-background">
+          <AccordionTrigger className="hover:no-underline px-3 py-2.5 text-sm">
+            <span className="font-medium">Educación</span>
+          </AccordionTrigger>
+          <AccordionContent className="px-3 pb-3">
+            <div className="space-y-3 pt-1">
+              {data.education.map((edu, index) => (
+                <Card key={edu.id} className="border-border bg-muted/30 py-0 gap-0">
+                  <CardContent className="p-3 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-muted-foreground">#{index + 1}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeEducation(edu.id)}
+                        className="h-6 w-6 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                    <div className="grid gap-1.5">
+                      <Label className="text-xs text-muted-foreground">Institución</Label>
+                      <Input
+                        value={edu.institution}
+                        onChange={(e) => updateEducation(edu.id, "institution", e.target.value)}
+                        placeholder="Universidad de Chile"
+                        className="h-8 text-sm"
+                      />
+                    </div>
+                    <div className="grid gap-1.5">
+                      <Label className="text-xs text-muted-foreground">Título</Label>
+                      <Input
+                        value={edu.degree}
+                        onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
+                        placeholder="Ingeniería en Computación"
+                        className="h-8 text-sm"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="grid gap-1.5">
+                        <Label className="text-xs text-muted-foreground">Inicio</Label>
+                        <Input
+                          value={edu.startDate}
+                          onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
+                          placeholder="Mar 2018"
+                          className="h-8 text-sm"
+                        />
+                      </div>
+                      <div className="grid gap-1.5">
+                        <Label className="text-xs text-muted-foreground">Fin</Label>
+                        <Input
+                          value={edu.endDate}
+                          onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
+                          placeholder="Dic 2022"
+                          className="h-8 text-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid gap-1.5">
+                      <Label className="text-xs text-muted-foreground">Logros (uno por línea)</Label>
+                      <ListField
+                        multiline
+                        value={edu.achievements}
+                        onChange={(v) => updateEducation(edu.id, "achievements", v)}
+                        placeholder="Mejor promedio&#10;Beca de excelencia"
+                        rows={2}
+                        className="text-sm resize-none"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              <Button variant="outline" onClick={addEducation} size="sm" className="w-full h-8 text-xs">
+                <Plus className="w-3.5 h-3.5 mr-1.5" />
+                Agregar
+              </Button>
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Certifications Section */}
+        <AccordionItem value="certifications" className="border border-border rounded-md bg-background">
+          <AccordionTrigger className="hover:no-underline px-3 py-2.5 text-sm">
+            <span className="font-medium">Certificaciones</span>
+          </AccordionTrigger>
+          <AccordionContent className="px-3 pb-3">
+            <div className="space-y-3 pt-1">
+              {data.certifications.map((cert, index) => (
+                <Card key={cert.id} className="border-border bg-muted/30 py-0 gap-0">
+                  <CardContent className="p-3 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-muted-foreground">#{index + 1}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeCertification(cert.id)}
+                        className="h-6 w-6 text-muted-foreground hover:text-destructive"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                    <div className="grid gap-1.5">
+                      <Label className="text-xs text-muted-foreground">Nombre</Label>
+                      <Input
+                        value={cert.name}
+                        onChange={(e) => updateCertification(cert.id, "name", e.target.value)}
+                        placeholder="AWS Certified Solutions Architect"
+                        className="h-8 text-sm"
+                      />
+                    </div>
+                    <div className="grid gap-1.5">
+                      <Label className="text-xs text-muted-foreground">Institución / Emisor</Label>
+                      <Input
+                        value={cert.issuer}
+                        onChange={(e) => updateCertification(cert.id, "issuer", e.target.value)}
+                        placeholder="Amazon Web Services"
+                        className="h-8 text-sm"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="grid gap-1.5">
+                        <Label className="text-xs text-muted-foreground">Inicio</Label>
+                        <Input
+                          value={cert.startDate}
+                          onChange={(e) => updateCertification(cert.id, "startDate", e.target.value)}
+                          placeholder="Ene 2023"
+                          className="h-8 text-sm"
+                        />
+                      </div>
+                      <div className="grid gap-1.5">
+                        <Label className="text-xs text-muted-foreground">Fin</Label>
+                        <Input
+                          value={cert.endDate}
+                          onChange={(e) => updateCertification(cert.id, "endDate", e.target.value)}
+                          placeholder="Dic 2026"
+                          className="h-8 text-sm"
+                        />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              <Button variant="outline" onClick={addCertification} size="sm" className="w-full h-8 text-xs">
                 <Plus className="w-3.5 h-3.5 mr-1.5" />
                 Agregar
               </Button>
@@ -445,7 +540,7 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                       </Button>
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Categoria</Label>
+                      <Label className="text-xs text-muted-foreground">Categoría</Label>
                       <Input
                         value={skill.category}
                         onChange={(e) => updateSkillCategory(skill.id, "category", e.target.value)}
@@ -499,22 +594,22 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                       <Input
                         value={project.name}
                         onChange={(e) => updateProject(project.id, "name", e.target.value)}
-                        placeholder="Sistema de Gestion"
+                        placeholder="Sistema de Gestión"
                         className="h-8 text-sm"
                       />
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Descripcion</Label>
+                      <Label className="text-xs text-muted-foreground">Descripción</Label>
                       <Textarea
                         value={project.description}
                         onChange={(e) => updateProject(project.id, "description", e.target.value)}
-                        placeholder="Aplicacion web para gestionar..."
+                        placeholder="Aplicación web para gestionar..."
                         rows={2}
                         className="text-sm resize-none"
                       />
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Tecnologias (separadas por coma)</Label>
+                      <Label className="text-xs text-muted-foreground">Tecnologías (separadas por coma)</Label>
                       <ListField
                         value={project.technologies}
                         onChange={(v) => updateProject(project.id, "technologies", v)}
@@ -564,11 +659,11 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                       </Button>
                     </div>
                     <div className="grid gap-1.5">
-                      <Label className="text-xs text-muted-foreground">Titulo</Label>
+                      <Label className="text-xs text-muted-foreground">Título</Label>
                       <Input
                         value={pub.title}
                         onChange={(e) => updatePublication(pub.id, "title", e.target.value)}
-                        placeholder="Analisis de algoritmos de ML"
+                        placeholder="Análisis de algoritmos de ML"
                         className="h-8 text-sm"
                       />
                     </div>
@@ -583,7 +678,7 @@ export function CVEditor({ data, onChange }: CVEditorProps) {
                         />
                       </div>
                       <div className="grid gap-1.5">
-                        <Label className="text-xs text-muted-foreground">Anio</Label>
+                        <Label className="text-xs text-muted-foreground">Año</Label>
                         <Input
                           value={pub.year}
                           onChange={(e) => updatePublication(pub.id, "year", e.target.value)}

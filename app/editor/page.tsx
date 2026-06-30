@@ -63,6 +63,7 @@ export default function CVBuilderPage() {
       },
       education: [],
       experience: [],
+      certifications: [],
       skills: [],
       projects: [],
       publications: [],

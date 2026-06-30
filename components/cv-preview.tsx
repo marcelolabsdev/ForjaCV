@@ -136,6 +136,26 @@ export function CVPreview({ data }: CVPreviewProps) {
         </section>
       )}
 
+      {/* Certifications */}
+      {data.certifications.length > 0 && (
+        <section style={{ marginBottom: "6pt" }}>
+          <h2 className="cv-section-title" style={SECTION_TITLE}>Certificaciones</h2>
+          <div style={{ display: "flex", flexDirection: "column", gap: "5pt" }}>
+            {data.certifications.map((cert) => (
+              <div className="cv-item" key={cert.id} style={ITEM_INDENT}>
+                <div style={{ fontSize: "11pt", fontWeight: "bold" }}>{cert.name}</div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "8pt" }}>
+                  <span style={{ fontSize: "11pt" }}>{cert.issuer}</span>
+                  <span style={{ fontSize: "10pt", whiteSpace: "nowrap" }}>
+                    {cert.startDate}{cert.startDate && cert.endDate ? " - " : ""}{cert.endDate}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Skills */}
       {data.skills.length > 0 && (
         <section style={{ marginBottom: "6pt" }}>
@@ -182,11 +202,15 @@ export function CVPreview({ data }: CVPreviewProps) {
       {data.publications.length > 0 && (
         <section style={{ marginBottom: "6pt" }}>
           <h2 className="cv-section-title" style={SECTION_TITLE}>Publicaciones</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1pt" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "5pt" }}>
             {data.publications.map((pub) => (
-              <p className="cv-item" key={pub.id} style={{ fontSize: "11pt", paddingInline: "0.20in" }}>
-                {pub.title}. <span style={{ fontStyle: "italic" }}>{pub.venue}</span>, {pub.year}.
-              </p>
+              <div className="cv-item" key={pub.id} style={ITEM_INDENT}>
+                <div style={{ fontSize: "11pt", fontWeight: "bold" }}>{pub.title}</div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "8pt" }}>
+                  <span style={{ fontSize: "11pt" }}>{pub.venue}</span>
+                  <span style={{ fontSize: "10pt", whiteSpace: "nowrap" }}>{pub.year}</span>
+                </div>
+              </div>
             ))}
           </div>
         </section>

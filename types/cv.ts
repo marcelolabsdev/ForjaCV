@@ -48,10 +48,19 @@ export interface Publication {
   year: string
 }
 
+export interface Certification {
+  id: string
+  name: string
+  issuer: string
+  startDate: string
+  endDate: string
+}
+
 export interface CVData {
   contact: ContactInfo
-  education: Education[]
   experience: Experience[]
+  education: Education[]
+  certifications: Certification[]
   skills: SkillCategory[]
   projects: Project[]
   publications: Publication[]

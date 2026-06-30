@@ -11,19 +11,6 @@ export const sampleCVData: CVData = {
     professionalProfile:
       "Ingeniero de software con experiencia construyendo aplicaciones web escalables y sistemas distribuidos. Apasionado por el rendimiento, la fiabilidad y la entrega de productos con impacto medible.",
   },
-  education: [
-    {
-      id: "edu-1",
-      institution: "Massachusetts Institute of Technology",
-      degree: "B.S. en Ciencias de la Computación",
-      startDate: "Sep 2020",
-      endDate: "Jun 2024",
-      achievements: [
-        "GPA: 3.9/4.0 · Decano de la lista de honor (2022-2024)",
-        "Becario del programa de investigación en Sistemas Distribuidos",
-      ],
-    },
-  ],
   experience: [
     {
       id: "exp-1",
@@ -49,6 +36,35 @@ export const sampleCVData: CVData = {
         "Construí una plataforma SaaS con Next.js y PostgreSQL que escaló a 5K usuarios activos",
         "Diseñé una API REST que procesa 2M de eventos diarios con 99.95% de disponibilidad",
       ],
+    },
+  ],
+  education: [
+    {
+      id: "edu-1",
+      institution: "Massachusetts Institute of Technology",
+      degree: "B.S. en Ciencias de la Computación",
+      startDate: "Sep 2020",
+      endDate: "Jun 2024",
+      achievements: [
+        "GPA: 3.9/4.0 · Decano de la lista de honor (2022-2024)",
+        "Becario del programa de investigación en Sistemas Distribuidos",
+      ],
+    },
+  ],
+  certifications: [
+    {
+      id: "cert-1",
+      name: "AWS Certified Solutions Architect – Associate",
+      issuer: "Amazon Web Services",
+      startDate: "Ene 2023",
+      endDate: "Ene 2026",
+    },
+    {
+      id: "cert-2",
+      name: "Deep Learning Specialization",
+      issuer: "DeepLearning.AI / Coursera",
+      startDate: "Mar 2022",
+      endDate: "Jun 2022",
     },
   ],
   skills: [

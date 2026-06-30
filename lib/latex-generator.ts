@@ -61,6 +61,31 @@ ${escapeLatex(data.contact.professionalProfile)}
 `
   }
 
+  // Experience
+  if (data.experience.length > 0) {
+    latex += `\\section*{Experiencia Profesional}
+\\begin{itemize}[leftmargin=0pt, label={}]
+`
+    for (const exp of data.experience) {
+      latex += `\\item \\textbf{${escapeLatex(exp.company)}} \\hfill ${escapeLatex(exp.location)}\\\\
+\\textit{${escapeLatex(exp.position)}} \\hfill ${escapeLatex(exp.startDate)} -- ${escapeLatex(exp.endDate)}
+`
+      if (exp.responsibilities.length > 0) {
+        latex += `\\begin{itemize}[leftmargin=1.5em]
+`
+        for (const resp of exp.responsibilities) {
+          latex += `\\item ${escapeLatex(resp)}
+`
+        }
+        latex += `\\end{itemize}
+`
+      }
+    }
+    latex += `\\end{itemize}
+
+`
+  }
+
   // Education
   if (data.education.length > 0) {
     latex += `\\section*{Educación}
@@ -86,25 +111,15 @@ ${escapeLatex(edu.degree)}
 `
   }
 
-  // Experience
-  if (data.experience.length > 0) {
-    latex += `\\section*{Experiencia Profesional}
+  // Certifications
+  if (data.certifications.length > 0) {
+    latex += `\\section*{Certificaciones}
 \\begin{itemize}[leftmargin=0pt, label={}]
 `
-    for (const exp of data.experience) {
-      latex += `\\item \\textbf{${escapeLatex(exp.company)}} \\hfill ${escapeLatex(exp.location)}\\\\
-\\textit{${escapeLatex(exp.position)}} \\hfill ${escapeLatex(exp.startDate)} -- ${escapeLatex(exp.endDate)}
+    for (const cert of data.certifications) {
+      latex += `\\item \\textbf{${escapeLatex(cert.name)}} \\hfill ${escapeLatex(cert.startDate)} -- ${escapeLatex(cert.endDate)}\\\\
+${escapeLatex(cert.issuer)}
 `
-      if (exp.responsibilities.length > 0) {
-        latex += `\\begin{itemize}[leftmargin=1.5em]
-`
-        for (const resp of exp.responsibilities) {
-          latex += `\\item ${escapeLatex(resp)}
-`
-        }
-        latex += `\\end{itemize}
-`
-      }
     }
     latex += `\\end{itemize}
 
@@ -147,7 +162,8 @@ ${escapeLatex(project.description)}\\\\
 \\begin{itemize}[leftmargin=0pt, label={}]
 `
     for (const pub of data.publications) {
-      latex += `\\item ${escapeLatex(pub.title)}. \\textit{${escapeLatex(pub.venue)}}, ${escapeLatex(pub.year)}.
+      latex += `\\item \\textbf{${escapeLatex(pub.title)}} \\hfill ${escapeLatex(pub.year)}\\\\
+${escapeLatex(pub.venue)}
 `
     }
     latex += `\\end{itemize}

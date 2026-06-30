@@ -177,6 +177,26 @@ export function CVPDFDocument({ data }: { data: CVData }) {
           </View>
         ) : null}
 
+        {/* Certifications */}
+        {data.certifications.length > 0 ? (
+          <View style={styles.section} break={false}>
+            <Text style={styles.sectionTitle}>Certificaciones</Text>
+            <View style={styles.items}>
+              {data.certifications.map((cert) => (
+                <View key={cert.id} style={styles.item} break={false}>
+                  <Text style={styles.institution}>{cert.name}</Text>
+                  <View style={styles.row}>
+                    <Text style={styles.degree}>{cert.issuer}</Text>
+                    <Text style={styles.meta}>
+                      {dates(cert.startDate, cert.endDate)}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
+          </View>
+        ) : null}
+
         {/* Skills */}
         {data.skills.length > 0 ? (
           <View style={styles.section} break={false}>
@@ -225,9 +245,13 @@ export function CVPDFDocument({ data }: { data: CVData }) {
             <Text style={styles.sectionTitle}>Publicaciones</Text>
             <View style={styles.items}>
               {data.publications.map((pub) => (
-                <Text key={pub.id} style={styles.pub} break={false}>
-                  {pub.title}. <Text style={{ fontStyle: "italic" }}>{pub.venue}</Text>, {pub.year}.
-                </Text>
+                <View key={pub.id} style={styles.item} break={false}>
+                  <Text style={styles.institution}>{pub.title}</Text>
+                  <View style={styles.row}>
+                    <Text style={styles.degree}>{pub.venue}</Text>
+                    <Text style={styles.meta}>{pub.year}</Text>
+                  </View>
+                </View>
               ))}
             </View>
           </View>
